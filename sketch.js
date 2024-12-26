@@ -33,6 +33,9 @@ let backgroundImage;
 let pixelFont;
 let startImage;
 let endImage;
+let startMusic;
+let gameMusic;
+let jumpSound;
 
 let horseSprite;
 let obstacleSprites = [];
@@ -109,6 +112,10 @@ function preload() {
   pixelFont = loadFont('/assets/pixelFont.ttf')
   startImage = loadImage('/assets/Start.png')
   endImage = loadImage('/assets/Success.png')
+
+  startMusic = loadSound('/assets/sounds/start.mp3')
+  gameMusic = loadSound('/assets/sounds/game.m4a')
+  jumpSound = loadSound('/assets/sounds/jump.mp3')
 }
 
 // Sets up canvas and initial sprite positions
@@ -144,10 +151,15 @@ function setup() {
     // Add a new snowflake object to the array
     snowflakes.push(new Snowflake());
   }
+
+  startMusic.setLoop(true);
+  gameMusic.setLoop(true);
+  jumpSound.setLoop(false);
 }
 
 // Draws opening, main game, game over, win screens
 function draw() {
+  updateMusic();
   if (currentScreen == 0) {
     drawSnowflakes();
     image(startImage, width/2, height/2, width, height);
@@ -170,6 +182,26 @@ function draw() {
 
     if (currentScreen == 2) {
       drawGameOver();
+    }
+  }
+}
+
+function updateMusic() {
+  if (currentScreen == 0) {
+    if (!startMusic.isPlaying()){
+      startMusic.play();
+    }
+
+    if (gameMusic.isPlaying()) {
+      gameMusic.stop();
+    }
+  } else {
+    if (startMusic.isPlaying()) {
+      startMusic.stop();
+    }
+
+    if (!gameMusic.isPlaying()) {
+      gameMusic.play();
     }
   }
 }
@@ -354,8 +386,14 @@ function keyPressed() {
     } else if (currentScreen == 1 && !horseSprite.isJumping) {
       horseSprite.velocityY = -10; // Initial upward velocity
       horseSprite.isJumping = true;
+      jumpSound.play();
     }
   }
+}
+
+function mousePressed() {
+  userStartAudio();
+  updateMusic();
 }
 
 //------- Helper functions
