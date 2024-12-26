@@ -78,44 +78,44 @@ const backgroundLayerConfigs = [
 function preload() {
   backgroundAssets = [
     [
-      loadImage('/assets/bg/layer1/mount1.png'),
-      loadImage('/assets/bg/layer1/mount2.png'),
-      loadImage('/assets/bg/layer1/mount3.png'),
-      loadImage('/assets/bg/layer1/mount4.png')
+      loadImage('./assets/bg/layer1/mount1.png'),
+      loadImage('./assets/bg/layer1/mount2.png'),
+      loadImage('./assets/bg/layer1/mount3.png'),
+      loadImage('./assets/bg/layer1/mount4.png')
     ],
     [
-      loadImage('/assets/bg/layer2/tree1.png'),
-      loadImage('/assets/bg/layer2/tree2.png'),
-      loadImage('/assets/bg/layer2/tree3.png')
+      loadImage('./assets/bg/layer2/tree1.png'),
+      loadImage('./assets/bg/layer2/tree2.png'),
+      loadImage('./assets/bg/layer2/tree3.png')
     ],
     [
-      loadImage('/assets/bg/layer3/flower1.png'),
-      loadImage('/assets/bg/layer3/flower2.png')
+      loadImage('./assets/bg/layer3/flower1.png'),
+      loadImage('./assets/bg/layer3/flower2.png')
     ],
     [
-      loadImage('/assets/bg/layer4/floor.png')
+      loadImage('./assets/bg/layer4/floor.png')
     ]
   ];
 
   horseAssets = [
-    loadImage('/assets/horse/horse1.png'),
-    loadImage('/assets/horse/horse2.png'),
+    loadImage('./assets/horse/horse1.png'),
+    loadImage('./assets/horse/horse2.png'),
   ]
 
   obstacleAssets = [
-    loadImage('/assets/obstacles/obstacle1.png'),
-    loadImage('/assets/obstacles/obstacle2.png'),
-    loadImage('/assets/obstacles/obstacle3.png')
+    loadImage('./assets/obstacles/obstacle1.png'),
+    loadImage('./assets/obstacles/obstacle2.png'),
+    loadImage('./assets/obstacles/obstacle3.png')
   ]
 
-  backgroundImage = loadImage('/assets/bg/bg.jpeg')
-  pixelFont = loadFont('/assets/pixelFont.ttf')
-  startImage = loadImage('/assets/Start.png')
-  endImage = loadImage('/assets/Success.png')
+  backgroundImage = loadImage('./assets/bg/bg.jpeg')
+  pixelFont = loadFont('./assets/pixelFont.ttf')
+  startImage = loadImage('./assets/Start.png')
+  endImage = loadImage('./assets/Success.png')
 
-  startMusic = loadSound('/assets/sounds/start.mp3')
-  gameMusic = loadSound('/assets/sounds/game.m4a')
-  jumpSound = loadSound('/assets/sounds/jump.mp3')
+  startMusic = loadSound('./assets/sounds/start.mp3')
+  gameMusic = loadSound('./assets/sounds/game.m4a')
+  jumpSound = loadSound('./assets/sounds/jump.mp3')
 }
 
 // Sets up canvas and initial sprite positions
