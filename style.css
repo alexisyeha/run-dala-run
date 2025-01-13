@@ -1,4 +1,8 @@
-canvas {
+html, body {
+  height: 100%;
+}
+
+body {
   margin: 0;
   display: flex;
 
@@ -7,8 +11,4 @@ canvas {
 
   /* This centers our sketch vertically. */
   align-items: center;
-}
-
-html, body {
-  height: 100%;
 }
