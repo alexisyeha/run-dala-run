@@ -19,6 +19,7 @@ const winScore = 240;
 //start score from zero
 let score = 0;  
 let currentScreen = 0 // 0: start screen, 1: game, 2: game over, 3: win
+let gameOverTime = 0; // Time when game over screen appeared
 
 // How many game frames to wait between horse animation frames
 const horseAnimationFrameGap = 8;
@@ -115,7 +116,7 @@ function preload() {
 
   startMusic = loadSound('assets/sounds/start.mp3')
   gameMusic = loadSound('assets/sounds/game.m4a')
-  jumpSound = loadSound('assets/sounds/jump.mp3')
+  jumpSound = loadSound('assets/sounds/jump.m4a')
 }
 
 // Sets up canvas and initial sprite positions
@@ -124,27 +125,7 @@ function setup() {
   imageMode(CENTER);
   angleMode(DEGREES);
 
-  // Horse starts in the left part of the canvas
-  horseSprite = makeHorseSprite(width * 0.2, height * 0.5, horseAssets);
-
-  // We always start with an obstacle outside of the canvas
-  const startingObstacleAsset = obstacleAssets[0];
-  obstacleSprites = [
-    makeObstacleSprite(width + 200, floorY() - startingObstacleAsset.height / 2 - 10, startingObstacleAsset)
-  ];
-
-  // Initial background sprites are randomly generated
-  for (let layerIndex = 0; layerIndex < backgroundAssets.length; layerIndex++) {
-    let lastSpriteLeftEdge = 0;
-    let sprites = [];
-    while (lastSpriteLeftEdge < width) {
-      let sprite = generateBackgroundSprite(layerIndex, lastSpriteLeftEdge);
-      sprites.push(sprite);
-      lastSpriteLeftEdge = sprite.centerX - sprite.image.width / 2;
-    }
-
-    backgroundSpriteLayers.push(sprites)
-  }
+  initializeGame();
 
   // Initial snowflakes
   for (let i = 0; i < 300; i++) {
@@ -274,6 +255,7 @@ function update() {
       if (distanceX < collisionDistanceX && distanceY < collisionDistanceY) {
         if (obstacleSprite.image === obstacleAssets[0]) {
           currentScreen = 2
+          gameOverTime = millis()
           horseSprite.velocityY = -10
           horseSprite.isJumping = true
           continue
@@ -365,6 +347,9 @@ function drawGameOver() {
   textSize(32);
   textAlign(CENTER, CENTER);
   text('GAME OVER', width / 2, height / 2);
+
+  textSize(15);
+  text('[press space bar to try again]', width / 2, height / 2 + 40);
 }
 
 function drawSnowflakes() {
@@ -387,7 +372,43 @@ function keyPressed() {
       horseSprite.velocityY = -10; // Initial upward velocity
       horseSprite.isJumping = true;
       jumpSound.play();
+    } else if (currentScreen == 2) {
+      if (millis() - gameOverTime > 500) {
+        resetGame();
+      }
     }
+  }
+}
+
+function resetGame() {
+  initializeGame();
+  currentScreen = 1;
+}
+
+function initializeGame() {
+  score = 0;
+
+  // Horse starts in the left part of the canvas
+  horseSprite = makeHorseSprite(width * 0.2, height * 0.5, horseAssets);
+
+  // We always start with an obstacle outside of the canvas
+  const startingObstacleAsset = obstacleAssets[0];
+  obstacleSprites = [
+    makeObstacleSprite(width + 200, floorY() - startingObstacleAsset.height / 2 - 10, startingObstacleAsset)
+  ];
+
+  // Reset background sprites
+  backgroundSpriteLayers = [];
+  for (let layerIndex = 0; layerIndex < backgroundAssets.length; layerIndex++) {
+    let lastSpriteLeftEdge = 0;
+    let sprites = [];
+    while (lastSpriteLeftEdge < width) {
+      let sprite = generateBackgroundSprite(layerIndex, lastSpriteLeftEdge);
+      sprites.push(sprite);
+      lastSpriteLeftEdge = sprite.centerX - sprite.image.width / 2;
+    }
+
+    backgroundSpriteLayers.push(sprites)
   }
 }
 
